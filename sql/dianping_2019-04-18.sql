@@ -7,7 +7,7 @@
 #
 # Host: 127.0.01 (MySQL 5.5.42)
 # Database: dianping
-# Generation Time: 2019-04-17 09:55:53 +0000
+# Generation Time: 2019-04-18 07:20:20 +0000
 # ************************************************************
 
 
@@ -9019,6 +9019,48 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table detail
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `detail`;
+
+CREATE TABLE `detail` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `city` varchar(32) DEFAULT NULL,
+  `area` varchar(32) DEFAULT NULL,
+  `road` varchar(255) DEFAULT NULL,
+  `industry` varchar(32) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `tel` varchar(255) DEFAULT NULL,
+  `business` varchar(255) DEFAULT NULL,
+  `price` char(11) DEFAULT NULL,
+  `effect` char(11) DEFAULT NULL,
+  `environment` char(11) DEFAULT NULL,
+  `service` char(11) DEFAULT NULL,
+  `comment` char(11) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+LOCK TABLES `detail` WRITE;
+/*!40000 ALTER TABLE `detail` DISABLE KEYS */;
+
+INSERT INTO `detail` (`id`, `city`, `area`, `road`, `industry`, `title`, `address`, `tel`, `business`, `price`, `effect`, `environment`, `service`, `comment`, `date`, `parent_id`)
+VALUES
+	(1,'上海','静安区','大悦城','美发','iEVER Beauty House','西藏北路166号大悦城南区二层216室','021-65876088','周一至周日\n10:30-22:00','619元','8.8','9.0','8.9','1087','2019-04-18 12:28:55',1),
+	(2,'上海','静安区','静安寺','美甲美睫','吾观 EXQUISITE LIFESTYLE','巨鹿路845弄6号','021-62255170\n            18017733626','周一至周四\n10:00-22:00\n\n周五至周日\n10:00-23:00','239元','9.4','9.5','9.5','96','2019-04-18 12:28:57',2),
+	(3,'上海','静安区','南京西路','美发','秦SALON(太古汇店)','南京西路832号集社二楼818广场右侧(近太古汇)','021-62251187\n            15026981780','周一至周日\n10:00-22:00\n\n2019-02-04至2019-02-10 休息','382元','9.0','9.0','9.0','753','2019-04-18 12:29:00',3),
+	(4,'上海','静安区','静安寺','美发','Charm hair salon','胶州路58号胶州大楼2703室(久光百货后门30米。)','021-62470816\n            15618862907','周一至周日\n10:00-22:00','474元','9.2','9.0','9.2','246','2019-04-18 12:29:02',4),
+	(5,'上海','静安区','静安寺','美发','东瀛国际造型(晶品广场店)','愚园路68号晶品购物广场03-03A','021-62888823\n            16621196857','周一至周日\n10:00-22:00\n\n2019-02-04 10:00-18:00','384元','9.1','9.0','9.1','496','2019-04-18 12:29:09',7),
+	(6,'上海','静安区','南京西路','美容/SPA','dermes光学脱毛(恒隆广场店)','南京西路1266号恒隆广场二期3F(地铁2号线南京西路站)','4008205623','周一至周六\n11:00-20:00\n\n2019-02-04至2019-02-08 休息','10277元','9.1','9.3','9.1','1838','2019-04-18 12:29:11',8),
+	(7,'上海','静安区','大悦城','美发','West Salon(大悦城店)','西藏北路18号(四行天地A座111-112，大悦城南侧)','18621753247\n            18602171080','周一至周日\n09:30-22:00','148元','8.9','8.9','8.9','592','2019-04-18 15:17:49',10);
+
+/*!40000 ALTER TABLE `detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 # Dump of table url
 # ------------------------------------------------------------
 
@@ -9039,18 +9081,18 @@ LOCK TABLES `url` WRITE;
 
 INSERT INTO `url` (`id`, `url`, `city_id`, `cate_id`, `area_id`, `status`)
 VALUES
-	(1,'http://www.dianping.com/shop/79291563',1477,1,1,0),
-	(2,'http://www.dianping.com/shop/124148694',1477,1,1,0),
-	(3,'http://www.dianping.com/shop/101947860',1477,1,1,0),
-	(4,'http://www.dianping.com/shop/111967709',1477,1,1,0),
-	(5,'http://www.dianping.com/shop/8540295',1477,1,1,0),
-	(6,'http://www.dianping.com/shop/112304020',1477,1,1,0),
-	(7,'http://www.dianping.com/shop/110287031',1477,1,1,0),
-	(8,'http://www.dianping.com/shop/19642919',1477,1,1,0),
-	(9,'http://www.dianping.com/shop/98948812',1477,1,1,0),
-	(10,'http://www.dianping.com/shop/101913537',1477,1,1,0),
-	(11,'http://www.dianping.com/shop/125074985',1477,1,1,0),
-	(12,'http://www.dianping.com/shop/19210063',1477,1,1,0),
+	(1,'http://www.dianping.com/shop/79291563',1477,1,1,1),
+	(2,'http://www.dianping.com/shop/124148694',1477,1,1,1),
+	(3,'http://www.dianping.com/shop/101947860',1477,1,1,1),
+	(4,'http://www.dianping.com/shop/111967709',1477,1,1,1),
+	(5,'http://www.dianping.com/shop/8540295',1477,1,1,3),
+	(6,'http://www.dianping.com/shop/112304020',1477,1,1,3),
+	(7,'http://www.dianping.com/shop/110287031',1477,1,1,1),
+	(8,'http://www.dianping.com/shop/19642919',1477,1,1,1),
+	(9,'http://www.dianping.com/shop/98948812',1477,1,1,3),
+	(10,'http://www.dianping.com/shop/101913537',1477,1,1,1),
+	(11,'http://www.dianping.com/shop/125074985',1477,1,1,3),
+	(12,'http://www.dianping.com/shop/19210063',1477,1,1,3),
 	(13,'http://www.dianping.com/shop/19472445',1477,1,1,0),
 	(14,'http://www.dianping.com/shop/129138835',1477,1,1,0),
 	(15,'http://www.dianping.com/shop/23125178',1477,1,1,0),

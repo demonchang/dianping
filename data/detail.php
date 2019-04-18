@@ -3,22 +3,65 @@
 require_once(dirname(__FILE__).'/../common.php');
 
 $sql = 'select * from url where status=0 limit 100';
-$cookie = 'gsScrollPos-552=0; gsScrollPos-569=0; gsScrollPos-580=; showNav=#nav-tab|0|0; navCtgScroll=11; gsScrollPos-780=0; gsScrollPos-850=; navCtgScroll=0; gsScrollPos-555=0; gsScrollPos-661=; gsScrollPos-777=0; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; _lxsdk_cuid=16a2407393d4f-042bff42f1ef1-36647105-1fa400-16a2407393ec8; _lxsdk=16a2407393d4f-042bff42f1ef1-36647105-1fa400-16a2407393ec8; _hc.v=e4decd87-1d61-0d34-ffa0-16d718902362.1555382615; s_ViewType=10; gsScrollPos-386=; cityid=1; default_ab=shop%3AA%3A1; pvhistory=6L+U5ZuePjo8L2Vycm9yL2Vycm9yX3BhZ2U+OjwxNTU1NDczODY2MjgxXV9b; m_flash2=1; cye=pingyu; gsScrollPos-879=; _lxsdk_s=16a2a218603-569-76a-9e3%7C%7C106';
-
-
+$cookie = 'cy=1; cityid=1; cye=shanghai; _hc.v="\"69e4d442-20d0-4dce-9c3a-2f59eeb6c484.1475129811\""; cityid=1; default_ab=shop%3AA%3A1';
 		
 while($rows = $sql_class->querys($sql)){
 	//
 	
 	foreach ($rows as $key => $value) {
-
+		$id = $value['id'];
 		$url_detail = $value['url'];
+		//dump($url_detail,false);
+		sleep(5);
+		$html = $curl_class->request($url_detail,$cookie);
+		if(empty($html)){
+			$status = 2; //内容获取失败
+			$content_fieldss = "update url set status={$status} where id={$id}";
+			$sql_class->update($content_fieldss);
+			continue;
+		}
+		//dump($details);
+		//writeContent($html);
+		//$html = readContent();
+		$title = pregContent('<h1 class="shop-name">([\s\S]*?)<a',$html);
+		if(empty($title)){
+			$status = 3; //标题解析错误
+			$content_fieldss = "update url set status={$status} where id={$id}";
+			$sql_class->update($content_fieldss);
+			continue;
+		}
+
+		$address = pregContent('<span class="item" itemprop="street-address" title="([\s\S]*?)"',$html);
+		$tel = formatContent(pregContent('<p class="expand-info tel">[\s]*?<span class="info-name">电话：</span>([\s\S]*?)</p>',$html),true);
+                
+        $business = pregContent('营业时间：</span>[\s]*?<span class="item">([\s\S]*?)</span>',$html);  
+        $price = pregContent('<span class="item">消费：([\s\S]*?)</span>',$html);
+  		$effect = pregContent('<span class="item">效果：([\s\S]*?)</span>',$html);
+  		$environment = pregContent('<span class="item">环境：([\s\S]*?)</span>',$html);
+  		$service = pregContent('<span class="item">服务：([\s\S]*?)</span>',$html);
+  		$comment = pregContent('<span class="item">([\s\S]*?)条评论</span>',$html);
+  		$city = pregContent('itemprop="url">([\s\S]*?)丽人[\s]*?</a>',$html);
+  		$area = pregContent('<div id="body" class="body">[\s\S]*?&gt;[\s]*?<a.*?>([\s\S]*?)</a>[\s]*?&gt;[\s]*?<a.*?>[\s\S]*?</a>[\s]*?&gt;[\s]*?<a.*?>[\s\S]*?</a>[\s]*?&gt;',$html);
+    	$road = pregContent('<div id="body" class="body">[\s\S]*?&gt;[\s]*?<a.*?>[\s\S]*?</a>[\s]*?&gt;[\s]*?<a.*?>([\s\S]*?)</a>[\s]*?&gt;[\s]*?<a.*?>[\s\S]*?</a>[\s]*?&gt;',$html);
+    	$industry = pregContent('<div id="body" class="body">[\s\S]*?&gt;[\s]*?<a.*?>[\s\S]*?</a>[\s]*?&gt;[\s]*?<a.*?>[\s\S]*?</a>[\s]*?&gt;[\s]*?<a.*?>([\s\S]*?)</a>[\s]*?&gt;',$html);
 		
-		//$url_detail = 'https://www.dianping.com';
-		sleep(1);
-		$details = $curl_class->request($url_detail,$cookie);
-		dump($details);
-		writeContent($details);
+		$date = date('Y-m-d H:i:s');
+
+
+		$content_field = "insert into detail(title,address,tel,business,price,effect,environment,service,comment,city,area,road,industry,parent_id,date) values('{$title}','{$address}','{$tel}','{$business}','{$price}','{$effect}','{$environment}','{$service}','{$comment}','{$city}','{$area}','{$road}','{$industry}',{$id},'{$date}')";
+		$select_result = $sql_class->insert($content_field);
+
+		if($select_result){
+			$status = 1; //正确
+		}else{
+			$status = 4; //插入失败
+			$log_class->log($content_field,'sql_err.log');
+		}
+		
+		$content_fieldss = "update url set status={$status} where id={$id}";
+		$sql_class->update($content_fieldss);
+
+		
 	}
 }
 		
