@@ -3,16 +3,15 @@
 require_once(dirname(__FILE__).'/../common.php');
 
 $sql = 'select * from url where status=0 limit 100';
-$cookie = 'cy=1; cityid=1; cye=shanghai; _hc.v="\"69e4d442-20d0-4dce-9c3a-2f59eeb6c484.1475129811\""; cityid=1; default_ab=shop%3AA%3A1';
+$cookie = ''; // 带上cookie要每次更新。要不然cookie会被识别
 		
 while($rows = $sql_class->querys($sql)){
-	//
-	
+
 	foreach ($rows as $key => $value) {
 		$id = $value['id'];
 		$url_detail = $value['url'];
 		//dump($url_detail,false);
-		sleep(5);
+		sleep(7);
 		$html = $curl_class->request($url_detail,$cookie);
 		if(empty($html)){
 			$status = 2; //内容获取失败
@@ -46,7 +45,6 @@ while($rows = $sql_class->querys($sql)){
     	$industry = pregContent('<div id="body" class="body">[\s\S]*?&gt;[\s]*?<a.*?>[\s\S]*?</a>[\s]*?&gt;[\s]*?<a.*?>[\s\S]*?</a>[\s]*?&gt;[\s]*?<a.*?>([\s\S]*?)</a>[\s]*?&gt;',$html);
 		
 		$date = date('Y-m-d H:i:s');
-
 
 		$content_field = "insert into detail(title,address,tel,business,price,effect,environment,service,comment,city,area,road,industry,parent_id,date) values('{$title}','{$address}','{$tel}','{$business}','{$price}','{$effect}','{$environment}','{$service}','{$comment}','{$city}','{$area}','{$road}','{$industry}',{$id},'{$date}')";
 		$select_result = $sql_class->insert($content_field);
