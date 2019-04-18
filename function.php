@@ -112,10 +112,7 @@ function jsonToCsv($json, $file_name='default.csv', $append_str=''){
 	saveContent($str,$file_name);
 }
 
-function getProxy(){
-	$arr = file_get_contents('http://112.124.117.191/wm/get_proxy.php?count=10');
-	return json_decode($arr,true);
-}
+
 function oneProxy($proxys,$key){
 	$proxys_count = count($proxys);
 	$num = $key%$proxys_count;
