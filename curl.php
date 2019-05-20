@@ -59,7 +59,7 @@ class Curl {
 
 
 
-	public static function request($url, $cookie='', $proxy='', $method='get', $fields = array(), $gzip=false, $ua=false, $referer=''){
+	public static function request($url, $cookie='', $ua=false, $proxy='', $method='get', $fields = array(), $gzip=false,  $referer=''){
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch,CURLOPT_HTTPHEADER, array("Host: www.dianping.com" ,'Referer: http://www.dianping.com/pingyu/ch50/g158'));

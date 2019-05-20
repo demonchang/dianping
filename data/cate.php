@@ -14,11 +14,11 @@ for ($i=0; $i < $count; $i++) {
 	$name = $out[2][$i];
 	$num = $out[1][$i];
 	$level = 0;
-	$url_detial = 'http://www.dianping.com/shanghai/ch50/g'.$num;
+	$url_detial = 'http://www.dianping.com/dongguan/ch10/g'.$num;
 	
 	//dump($url_detial);
 	//sleep(1);
-	$cookie = 'showNav=#nav-tab|0|1; gsScrollPos-552=0; gsScrollPos-569=0; gsScrollPos-580=; navCtgScroll=1; navCtgScroll=0; gsScrollPos-555=0; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; _lxsdk_cuid=16a2407393d4f-042bff42f1ef1-36647105-1fa400-16a2407393ec8; _lxsdk=16a2407393d4f-042bff42f1ef1-36647105-1fa400-16a2407393ec8; _hc.v=e4decd87-1d61-0d34-ffa0-16d718902362.1555382615; s_ViewType=10; cye=shanghai; cy=1; gsScrollPos-386=; _lxsdk_s=16a25042c19-6df-a0c-493%7C%7C820';
+	$cookie = 'navCtgScroll=0; showNav=#nav-tab|0|1; navCtgScroll=11; _lxsdk_cuid=16a2f5b852b45-0b86a76d832f57-36647105-1fa400-16a2f5b852c36; _lxsdk=16a2f5b852b45-0b86a76d832f57-36647105-1fa400-16a2f5b852c36; _hc.v=9b6f3a0e-4afd-68c6-f693-159ccbd4754a.1555572689; s_ViewType=10; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; cy=219; cye=dongguan; lgtoken=0fde2fccc-6bf1-483f-ba04-20467b09e79d; _lxsdk_s=16ad42ef910-c07-dfb-a67%7C%7C782';
 	sleep(2);
 	$detail = $curl_class->request($url_detial,$cookie);
 
