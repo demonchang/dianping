@@ -194,7 +194,8 @@ function getUa(){
 function getIP(){
 	global $proxy_arr;
 	if(empty($proxy_arr)){
-		$res = file_get_contents('http://112.124.117.191/wm/get_proxy.php?count=10');
+		$proxy_url = '';
+		$res = file_get_contents($proxy_url);
 		$ips = json_decode($res,true);
 	}else{
 		$ips = $proxy_arr;
