@@ -3,7 +3,7 @@
 	class Log {
 
 		public static $file;
-		public static $file_path = './log/';
+		public static $file_path = '../log/';
 		public function __construct($filename=''){
 
 			if(empty($filename)){
@@ -18,7 +18,9 @@
 			}
 
 			$file = self::$file_path.$filename;
-
+			if(!file_exists($file)){
+				touch($file);
+			}
 			if($append){
 				$append = FILE_APPEND;
 			}else{
